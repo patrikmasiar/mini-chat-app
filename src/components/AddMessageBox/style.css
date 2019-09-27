@@ -22,7 +22,7 @@
 }
 
 .body {
-    padding: 15px;
+    padding: 25px 15px 15px 15px;
     margin: 0;
     width: 100%;
 }
@@ -44,4 +44,7 @@
 .footer {
     display: flex;
     padding: 15px;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
 }
