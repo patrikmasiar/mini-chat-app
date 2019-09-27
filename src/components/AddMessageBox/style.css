@@ -9,6 +9,7 @@
     box-shadow: 1px 1px 5px #ababab;
     overflow: hidden;
     border: 1px solid lightgray;
+    margin-top: auto;
 }
 
 .header {
