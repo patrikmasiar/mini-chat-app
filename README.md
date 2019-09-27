@@ -1,4 +1,4 @@
-# my-project
+# Mini chat app
 
 ## CLI Commands
 

@@ -1,14 +1,11 @@
 import { h, Component } from 'preact';
-import Application from './Application';
 
 // eslint-disable-next-line react/prefer-stateless-function
-export default class App extends Component {
+export default class Application extends Component {
 
 	render() {
 		return (
-			<div id="app">
-				<Application />
-			</div>
+			<div />
 		);
 	}
 	
