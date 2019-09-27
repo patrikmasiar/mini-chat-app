@@ -1,25 +1,25 @@
 .wrapper {
     width: 100%;
-    background: #fff;
+    background: #4e4e4e;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    box-shadow: 1px 1px 5px #ababab;
+    box-shadow: 1px 1px 5px #000;
     overflow: hidden;
-    border: 1px solid lightgray;
+    border: 1px solid #000;
     margin-top: auto;
 }
 
 .header {
-    background-color: #F8F9FC;
+    background-color: #2D2F32;
     width: 100%;
     padding: 15px;
-    border-bottom: 1px solid lightgray;
-    color: #000;
+    color: #fff;
     font-weight: 700;
     font-size: 15px;
+    border-bottom: 1px solid #000;
 }
 
 .body {
@@ -35,11 +35,13 @@
     height: 80px;
     outline: none;
     font-size: 16px;
+    color: #fff;
+    background-color: #4e4e4e;
 }
 
 .textarea::placeholder {
     font-size: 16px;
-    color: #BFC6D5;
+    color: lightgray;
 }
 
 .footer {
