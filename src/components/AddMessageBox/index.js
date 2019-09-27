@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import style from './style.css';
+import Button from '../Button';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class AddMessageBox extends Component {
@@ -13,7 +14,9 @@ export default class AddMessageBox extends Component {
 				<div className={style.body}>
 				    <textarea className={style.textarea} placeholder="Write a message..." />
 				</div>
-				<div className={style.footer} />
+				<div className={style.footer}>
+					<Button label="Send" type="info" />
+				</div>
 			</div>
 		);
 	}
