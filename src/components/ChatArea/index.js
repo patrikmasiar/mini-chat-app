@@ -10,7 +10,7 @@ export default class ChatArea extends Component {
     	messages: [
     		{ id: 1, text: 'hello world', created_at: '2019-10-12 13:00' },
     		{ id: 2, text: 'hello world', created_at: '2019-10-12 13:00' },
-    		{ id: 3, text: 'hello world', created_at: '2019-10-12 13:00' },
+    		{ id: 3, text: 'Dragée caramels muffin apple pie jujubes soufflé. Dragée sugar plum marshmallow gingerbread lollipop gummies cheesecake. Gingerbread liquorice bonbon croissant halvah oat cake bonbon sweet. Cake bear claw brownie dessert.', created_at: '2019-10-12 13:00' },
     		{ id: 4, text: 'hello world', created_at: '2019-10-12 13:00' },
     		{ id: 5, text: 'hello world', created_at: '2019-10-12 13:00' }
     	]
