@@ -8,9 +8,9 @@ export default class ChatBubble extends Component {
 		const { message } = this.props;
         
 		return (
-			<span className={style.wrapper}>
+			<div className={style.wrapper}>
 				{message}
-			</span>
+			</div>
 		);
 	}
 	

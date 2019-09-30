@@ -1,3 +1,13 @@
 .wrapper {
-    
+    background-image: linear-gradient(to right, #FF9A5C , #FF4355);
+    margin: 5px;
+    align-self: flex-start;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.mine {
+    background-image: linear-gradient(to right, #F32C61 , #8D22C3);
+    align-self: flex-end;
 }
