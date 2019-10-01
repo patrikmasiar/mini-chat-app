@@ -1,5 +1,5 @@
 {
-  "homepage": "http://minichat.github.io/mini-chat-app",
+  "homepage": "http://massoprod.github.io/mini-chat-app",
   "private": true,
   "name": "my-project",
   "version": "0.0.0",
@@ -33,6 +33,11 @@
     "preact-render-spy": "^1.2.1"
   },
   "dependencies": {
+    "@pusher/chatkit-server": "^2.1.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
     "preact": "^8.5.2",
     "preact-compat": "^3.17.0",
     "preact-fluid": "^0.9.1",
