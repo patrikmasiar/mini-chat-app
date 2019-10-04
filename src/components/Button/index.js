@@ -15,6 +15,8 @@ export default class Button extends Component {
 			case 'success':
 				bgColor = '#A0E47C';
 				break;
+			default:
+				bgColor = '#000';
 		}
 
 		return (
