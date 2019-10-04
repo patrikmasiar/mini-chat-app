@@ -3,8 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { AppProvider } from './store/store';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const Application = () => (
+    <AppProvider>
+        <App />
+    </AppProvider>
+);
+
+ReactDOM.render(<Application />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
