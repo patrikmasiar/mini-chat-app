@@ -1,5 +1,5 @@
-import { h, Component } from 'preact';
-import style from './style.css';
+import React, { Component } from 'react';
+import style from './style.module.css';
 import Button from '../Button';
 
 // eslint-disable-next-line react/prefer-stateless-function

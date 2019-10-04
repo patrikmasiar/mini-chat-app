@@ -1,5 +1,5 @@
-import { h, Component } from 'preact';
-import style from './style.css';
+import React, { Component } from 'react';
+import style from './style.module.css';
 import AddMessageBox from '../AddMessageBox';
 import CahtList from '../ChatList';
 
