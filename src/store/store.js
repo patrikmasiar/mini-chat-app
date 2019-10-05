@@ -3,24 +3,24 @@ import React, { createContext, Component } from 'react';
 const AppContext = createContext({
   user: null,
   room: null,
-  setUserName: () => {},
-  setRoomName: () => {},
+  setUser: () => {},
+  setRoom: () => {},
 });
 
 export class AppProvider extends Component {
-  setUserName = user => {
+  setUser = user => {
     this.setState({ user });
   };
 
-  setRoomName = room => {
+  setRoom = room => {
     this.setState({ room })
   };
 
   state = {
     user: null,
     room: null,
-    setUserName: this.setUserName,
-    setRoomName: this.setRoomName,
+    setUser: this.setUser,
+    setRoom: this.setRoom,
   };
 
   render() {
