@@ -5,7 +5,7 @@ import Message from '../Message';
 
 const ChatRoom = ({...props}) => (
   <div className="card text-white bg-dark mt-3">
-    <div className="card-header">CHAT</div>
+    <div className="card-header">{props.title}</div>
     <div className="card-body">
       <div className={style.chatList}>
         {props.messages.map(message => {

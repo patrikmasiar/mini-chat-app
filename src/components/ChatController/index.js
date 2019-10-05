@@ -233,6 +233,7 @@ export default class ChatController extends Component {
     if (isChatReady) {
       return (
         <ChatRoom
+          title={appData.room !== null ? appData.room.name : ''}
           messages={messages}
           currentUserId={appData.user.id}
           newMessageValue={message}
