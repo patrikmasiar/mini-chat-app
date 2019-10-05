@@ -2,7 +2,9 @@ import React, { createContext, Component } from 'react';
 
 const AppContext = createContext({
   userName: '',
+  chatRoomName: '',
   setUserName: () => {},
+  setChatRoomName: () => {},
 });
 
 export class AppProvider extends Component {
@@ -10,9 +12,15 @@ export class AppProvider extends Component {
     this.setState({ userName });
   };
 
+  setChatRoomName = chatRoomName => {
+    this.setState({ chatRoomName });
+  };
+
   state = {
-    userName: 'New User',
+    userName: '',
+    chatRoomName: '',
     setUserName: this.setUserName,
+    setChatRoomName: this.setChatRoomName,
   };
 
   render() {
