@@ -3,9 +3,10 @@ import style from './style.module.css';
 import axios from "axios";
 import Chatkit from "@pusher/chatkit-client";
 import Spinner from "react-spinkit";
-import {CHATKIT_INSTANCE_LOCATOR} from '../../constants';
+import {CHATKIT_INSTANCE_LOCATOR, DEFAULT_CHAT_USER} from '../../constants';
 import AddToChatForm from '../AddToChatForm';
 import ChatRoom from '../ChatRoom';
+import {NEW_CHAT_TYPE, JOIN_CHAT_TYPE} from './constants';
 
 export default class ChatController extends Component {
 
@@ -32,7 +33,7 @@ export default class ChatController extends Component {
 
       const chatManager = new Chatkit.ChatManager({
         instanceLocator: CHATKIT_INSTANCE_LOCATOR,
-        userId: 'support',
+        userId: DEFAULT_CHAT_USER,
         tokenProvider,
       });
 
@@ -65,7 +66,7 @@ export default class ChatController extends Component {
     const {appData} = this.props;
 
     return appData.user.addUserToRoom({
-      userId: "support",
+      userId: DEFAULT_CHAT_USER,
       roomId: appData.room.id,
     });
   };
@@ -205,18 +206,15 @@ export default class ChatController extends Component {
       if (chatAction === null) {
         bodyComponent = (
           <>
-            <button type="button" className="btn btn-primary" style={{width: 200}} onClick={this.handleChangeChatAction.bind(this, 'join')}>
+            <button type="button" className="btn btn-primary" style={{width: 200}} onClick={this.handleChangeChatAction.bind(this, JOIN_CHAT_TYPE)}>
               Join chat
             </button>
-            <button type="button" className="btn btn-info" style={{width: 200}} onClick={this.handleChangeChatAction.bind(this, 'new')}>
+            <button type="button" className="btn btn-info" style={{width: 200}} onClick={this.handleChangeChatAction.bind(this, NEW_CHAT_TYPE)}>
               Create new chat
             </button>
           </>
         )
       } else {
-        const buttonLabel = chatAction === 'new' ? 'Create' : 'Join';
-        const title = chatAction === 'new' ? "CREATE NEW CHAT" : "JOIN CHAT ROOM"
-
         bodyComponent = (
           <AddToChatForm
             onBackClick={this.handleChangeChatAction.bind(this, null)}
@@ -224,9 +222,9 @@ export default class ChatController extends Component {
             onNicknameChange={this.handleChangeUserName}
             chatroom={chatRoom}
             nickname={userName}
-            title={title}
-            onSubmit={chatAction === 'new' ? this.handleSubmitNewChat : this.handleSubmitJoinChat}
-            buttonLabel={buttonLabel}
+            title={chatAction === NEW_CHAT_TYPE ? "CREATE NEW CHAT" : "JOIN CHAT ROOM"}
+            onSubmit={chatAction === NEW_CHAT_TYPE ? this.handleSubmitNewChat : this.handleSubmitJoinChat}
+            buttonLabel={chatAction === NEW_CHAT_TYPE ? 'Create' : 'Join'}
           />
         );
       }
