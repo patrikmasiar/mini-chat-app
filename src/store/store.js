@@ -1,24 +1,26 @@
 import React, { createContext, Component } from 'react';
 
 const AppContext = createContext({
-  currentUser: {
-    id: null,
-    userName: '',
-  },
+  user: null,
+  room: null,
   setUserName: () => {},
+  setRoomName: () => {},
 });
 
 export class AppProvider extends Component {
-  setUserName = userName => {
-    this.setState({ currentUser: {id: userName, userName} });
+  setUserName = user => {
+    this.setState({ user });
+  };
+
+  setRoomName = room => {
+    this.setState({ room })
   };
 
   state = {
-    currentUser: {
-      id: null,
-      userName: '',
-    },
+    user: null,
+    room: null,
     setUserName: this.setUserName,
+    setRoomName: this.setRoomName,
   };
 
   render() {
