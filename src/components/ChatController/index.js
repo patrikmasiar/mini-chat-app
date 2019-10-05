@@ -3,7 +3,7 @@ import style from './style.module.css';
 import axios from "axios";
 import Chatkit from "@pusher/chatkit-client";
 import Spinner from "react-spinkit";
-import {CHATKIT_INSTANCE_LOCATOR, DEFAULT_CHAT_USER} from '../../constants';
+import {CHATKIT_INSTANCE_LOCATOR, DEFAULT_CHAT_USER, ENDPOINT} from '../../constants';
 import AddToChatForm from '../AddToChatForm';
 import ChatRoom from '../ChatRoom';
 import {NEW_CHAT_TYPE, JOIN_CHAT_TYPE} from './constants';
@@ -25,10 +25,10 @@ export default class ChatController extends Component {
   componentDidMount() {
     this.setState({isLoading: true});
     axios
-    .get("https://masso-mini-chat-app.herokuapp.com/posts", { userId: 'support' })
+    .get(`${ENDPOINT}/posts`, { userId: 'support' })
     .then(() => {
       const tokenProvider = new Chatkit.TokenProvider({
-        url: "https://masso-mini-chat-app.herokuapp.com/authenticate"
+        url: `${ENDPOINT}/authenticate`
       });
 
       const chatManager = new Chatkit.ChatManager({
@@ -112,10 +112,10 @@ export default class ChatController extends Component {
       alert("Invalid userId");
     } else {
       axios
-        .post("https://masso-mini-chat-app.herokuapp.com/users", { userId: userName })
+        .post(`${ENDPOINT}/users`, { userId: userName })
         .then(() => {
           const tokenProvider = new Chatkit.TokenProvider({
-            url: "https://masso-mini-chat-app.herokuapp.com/authenticate"
+            url: `${ENDPOINT}/authenticate`
           });
 
           const chatManager = new Chatkit.ChatManager({
@@ -140,10 +140,10 @@ export default class ChatController extends Component {
     const {userName} = this.state;
 
     axios
-    .post("https://masso-mini-chat-app.herokuapp.com/users", { userId: userName })
+    .post(`${ENDPOINT}/users`, { userId: userName })
     .then(() => {
       const tokenProvider = new Chatkit.TokenProvider({
-        url: "https://masso-mini-chat-app.herokuapp.com/authenticate"
+        url: `${ENDPOINT}/authenticate`
       });
 
       const chatManager = new Chatkit.ChatManager({
