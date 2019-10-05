@@ -1,0 +1,16 @@
+.sendWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.messageInputWrapper {
+    width: 100%;
+    flex: 3;
+}
+
+.chatList {
+    display: flex;
+    flex-direction: column;
+    height: 75vh;
+    overflow: scroll;
+}

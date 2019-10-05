@@ -4,8 +4,8 @@ import axios from "axios";
 import Chatkit from "@pusher/chatkit-client";
 import Spinner from "react-spinkit";
 import {CHATKIT_INSTANCE_LOCATOR} from '../../constants';
-
-const classes = require('react-style-classes');
+import AddToChatForm from '../AddToChatForm';
+import ChatRoom from '../ChatRoom';
 
 export default class ChatController extends Component {
 
@@ -39,7 +39,6 @@ export default class ChatController extends Component {
       return chatManager
         .connect()
         .then(data => {
-          console.log(data.rooms)
           this.setState({loadedRooms: data.rooms, isLoading: false});
         });
     })
@@ -74,7 +73,6 @@ export default class ChatController extends Component {
   connectToRoom = (id) => {
     const { appData } = this.props;
 
-    console.log(id)
     return appData.user
       .subscribeToRoom({
         roomId: `${id}`,
@@ -138,7 +136,7 @@ export default class ChatController extends Component {
 
   handleSubmitJoinChat = () => {
     this.setState({isLoading: true});
-    const {chatRoom, userName} = this.state;
+    const {userName} = this.state;
 
     axios
     .post("http://localhost:5200/users", { userId: userName })
@@ -156,7 +154,6 @@ export default class ChatController extends Component {
       return chatManager
         .connect()
         .then(currentUser => {
-          console.log(currentUser)
           this.props.appData.setUser(currentUser);
           this.setState(
             {
@@ -201,99 +198,56 @@ export default class ChatController extends Component {
     const {chatAction, isLoading, chatRoom, messages, message, isChatReady, userName} = this.state;
     const {appData} = this.props;
 
+    let bodyComponent = null;
     if (isLoading) {
-      return (
-        <div className={style.btnsWrapper}>
-          <Spinner name="ball-triangle-path" color="#f0f0f0" />
-        </div>
-      )
+      bodyComponent = <Spinner name="ball-triangle-path" color="#f0f0f0" />;
+    } else {
+      if (chatAction === null) {
+        bodyComponent = (
+          <>
+            <button type="button" className="btn btn-primary" style={{width: 200}} onClick={this.handleChangeChatAction.bind(this, 'join')}>
+              Join chat
+            </button>
+            <button type="button" className="btn btn-info" style={{width: 200}} onClick={this.handleChangeChatAction.bind(this, 'new')}>
+              Create new chat
+            </button>
+          </>
+        )
+      } else {
+        const buttonLabel = chatAction === 'new' ? 'Create' : 'Join';
+        const title = chatAction === 'new' ? "CREATE NEW CHAT" : "JOIN CHAT ROOM"
+
+        bodyComponent = (
+          <AddToChatForm
+            onBackClick={this.handleChangeChatAction.bind(this, null)}
+            onChatroomChange={this.handleChangeChatRoom}
+            onNicknameChange={this.handleChangeUserName}
+            chatroom={chatRoom}
+            nickname={userName}
+            title={title}
+            onSubmit={chatAction === 'new' ? this.handleSubmitNewChat : this.handleSubmitJoinChat}
+            buttonLabel={buttonLabel}
+          />
+        );
+      }
     }
 
     if (isChatReady) {
       return (
-        <div>
-          <div className="card text-white bg-dark mt-3">
-            <div className="card-header">CHAT</div>
-            <div className="card-body">
-              <div className={style.chatList}>
-                {messages.map((message, index) => {
-                  console.log(message);
-                  const isMine = message.senderId === appData.user.id;
-                  return (
-                    <div className={classes(style.message, isMine && style.mineMessage)} key={`${message}-${index}`}>
-                      {message.text}
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-            <div className="card-footer">
-              <div className={style.sendWrapper}>
-                <input placeholder="type your message..." className="form-control" onChange={this.handleUpdateMessage} value={message} />
-                <button type="button" className="btn btn-success" style={{marginLeft: 10}} onClick={this.handleSubmitMessage}>
-                  SUBMIT 
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ChatRoom
+          messages={messages}
+          currentUserId={appData.user.id}
+          newMessageValue={message}
+          onAddSubmit={this.handleSubmitMessage}
+          onNewMessageChange={this.handleUpdateMessage}
+        />
       )
     }
 
     return (
-      <>
-        {chatAction === null && (
-          <div className={style.btnsWrapper}>
-              <button type="button" className="btn btn-primary" style={{width: 200}} onClick={this.handleChangeChatAction.bind(this, 'join')}>
-                Join chat
-              </button>
-              <button type="button" className="btn btn-info" style={{width: 200}} onClick={this.handleChangeChatAction.bind(this, 'new')}>
-                Create new chat
-              </button>
-          </div>
-        )}
-
-        {chatAction === 'new' && (
-          <div className={style.btnsWrapper}>
-            <h4>NEW CHAT</h4>
-            <div className="form-group" style={{width: 350}}>
-              <label htmlFor="chatName">Nickname</label>
-              <input onChange={this.handleChangeUserName} value={userName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Nickname" />
-            </div>
-            <div className="form-group" style={{width: 350}}>
-              <label htmlFor="chatName">Chat room name</label>
-              <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom name" />
-            </div>
-            <button type="button" className="btn btn-success" style={{width: 350}} onClick={this.handleSubmitNewChat}>
-              CREATE CHAT
-            </button>
-            <button type="button" className="btn btn-primary" style={{width: 200, marginTop: 30}} onClick={this.handleChangeChatAction.bind(this, null)}>
-              BACK
-            </button>
-          </div>
-        )}
-
-        {chatAction === 'join' && (
-          <div className={style.btnsWrapper}>
-            <h4>JOIN CHAT</h4>
-            <div className="form-group" style={{width: 350}}>
-              <label htmlFor="chatName">Nickname</label>
-              <input onChange={this.handleChangeUserName} value={userName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Nickname" />
-            </div>
-            <div className="form-group" style={{width: 350}}>
-              <label htmlFor="chatName">Chat room name</label>
-              <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom name" />
-            </div>
-            <button type="button" className="btn btn-success" style={{width: 350}} onClick={this.handleSubmitJoinChat}>
-              JOIN CHAT
-            </button>
-            <button type="button" className="btn btn-primary" style={{width: 200, marginTop: 30}} onClick={this.handleChangeChatAction.bind(this, null)}>
-              BACK
-            </button>
-          </div>
-        )}
-      </>
-      
+      <div className={style.btnsWrapper}>
+        {bodyComponent}
+      </div>
     );
   }
 
