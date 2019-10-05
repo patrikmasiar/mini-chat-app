@@ -25,10 +25,10 @@ export default class ChatController extends Component {
   componentDidMount() {
     this.setState({isLoading: true});
     axios
-    .get("http://localhost:5200/posts", { userId: 'support' })
+    .get("https://masso-mini-chat-app.herokuapp.com/posts", { userId: 'support' })
     .then(() => {
       const tokenProvider = new Chatkit.TokenProvider({
-        url: "http://localhost:5200/authenticate"
+        url: "https://masso-mini-chat-app.herokuapp.com/authenticate"
       });
 
       const chatManager = new Chatkit.ChatManager({
@@ -112,10 +112,10 @@ export default class ChatController extends Component {
       alert("Invalid userId");
     } else {
       axios
-        .post("http://localhost:5200/users", { userId: userName })
+        .post("https://masso-mini-chat-app.herokuapp.com/users", { userId: userName })
         .then(() => {
           const tokenProvider = new Chatkit.TokenProvider({
-            url: "http://localhost:5200/authenticate"
+            url: "https://masso-mini-chat-app.herokuapp.com/authenticate"
           });
 
           const chatManager = new Chatkit.ChatManager({
@@ -140,10 +140,10 @@ export default class ChatController extends Component {
     const {userName} = this.state;
 
     axios
-    .post("http://localhost:5200/users", { userId: userName })
+    .post("https://masso-mini-chat-app.herokuapp.com/users", { userId: userName })
     .then(() => {
       const tokenProvider = new Chatkit.TokenProvider({
-        url: "http://localhost:5200/authenticate"
+        url: "https://masso-mini-chat-app.herokuapp.com/authenticate"
       });
 
       const chatManager = new Chatkit.ChatManager({
