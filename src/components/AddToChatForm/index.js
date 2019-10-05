@@ -31,6 +31,7 @@ const AddToChatForm = ({...props}) => (
       className="btn btn-success"
       style={{width: 350}}
       onClick={props.onSubmit}
+      disabled={props.chatroom.length === 0 || props.nickname.length === 0}
     >
       {props.buttonLabel}
     </button>
@@ -54,6 +55,7 @@ AddToChatForm.propTypes = {
   nickname: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
+  isSubmitDisabled: PropTypes.bool.isRequired,
 };
 
 export default AddToChatForm;
