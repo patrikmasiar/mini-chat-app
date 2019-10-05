@@ -13,6 +13,8 @@ export default class ChatController extends Component {
     chatRoom: '',
     isLoading: false,
     messages: [],
+    isChatReady: false,
+    message: '',
   };
 
   handleChangeChatAction = chatAction => {
@@ -25,6 +27,10 @@ export default class ChatController extends Component {
 
   handleChangeChatRoom = e => {
     this.setState({chatRoom: e.target.value});
+  };
+
+  handleUpdateMessage = e => {
+    this.setState({message: e.target.value});
   };
 
   connectToRoom = (id) => {
@@ -82,7 +88,7 @@ export default class ChatController extends Component {
 
           return chatManager.connect().then(currentUser => {
             this.props.appData.setUser(currentUser);
-            this.setState({isLoading: false},
+            this.setState({isLoading: false, isChatReady: true},
               () => this.createRoom()
             );
           });
@@ -95,9 +101,26 @@ export default class ChatController extends Component {
 
   };
 
+  handleSubmitMessage = (event) => {
+    event.preventDefault();
+    const { message } = this.state;
+    const {appData} = this.props;
+
+    if (message.trim() === "") return;
+
+    appData.user.sendMessage({
+      text: message,
+      roomId: `${appData.room.id}`
+    });
+
+    this.setState({
+      message: ""
+    });
+  };
+
   render() {
     const {appData} = this.props;
-    const {chatAction, isLoading, userName, chatRoom, messages} = this.state;
+    const {chatAction, isLoading, userName, chatRoom, messages, message, isChatReady} = this.state;
     console.log('APP DATA: ', appData);
     console.log('MESSAGES:', messages);
 
@@ -105,6 +128,22 @@ export default class ChatController extends Component {
       return (
         <div className={style.btnsWrapper}>
           <Spinner name="ball-triangle-path" color="#f0f0f0" />
+        </div>
+      )
+    }
+
+    if (isChatReady) {
+      return (
+        <div>
+          {messages.map((message, index) => (
+            <div key={`${message}-${index}`}>
+              {message.text}
+            </div>
+          ))}
+          <input onChange={this.handleUpdateMessage} value={message} />
+          <button type="button" onClick={this.handleSubmitMessage}>
+            SUBMIT
+          </button>
         </div>
       )
     }
