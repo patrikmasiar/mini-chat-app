@@ -1,6 +1,6 @@
 .message {
     background-image: linear-gradient(to right, #FF9A5C , #FF4355);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     align-self: flex-start;
     color: #fff;
     padding: 10px;
@@ -12,4 +12,19 @@
 .mineMessage {
     background-image: linear-gradient(to right, #3498DB , #00bc8c);
     align-self: flex-end;
+}
+
+.author {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.me {
+    align-self: flex-end;
+}
+
+.createdAt {
+    font-size: 12px;
+    font-weight: 100;
+    margin-left: 5px;
 }

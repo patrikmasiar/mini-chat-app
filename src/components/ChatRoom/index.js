@@ -21,12 +21,15 @@ const ChatRoom = ({...props}) => {
       <div className="card-body">
         <div className={style.chatList}>
           {props.messages.map(message => {
+
             const isMine = message.senderId === props.currentUserId;
             return (
               <Message
                 isMine={isMine}
                 message={message.text}
                 key={message.id}
+                author={message.senderId}
+                createdAt={message.createdAt}
               />
             )
           })}
