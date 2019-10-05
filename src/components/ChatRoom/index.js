@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import style from './style.module.css';
 import PropTypes from 'prop-types';
 import Message from '../Message';
 import Spinner from "react-spinkit";
 
 const ChatRoom = ({...props}) => {
+  const lastRef = useRef(null);
   if (props.title.length === 0) {
     return (
       <div className={style.loaderWrapper}>
@@ -12,6 +13,15 @@ const ChatRoom = ({...props}) => {
       </div>
     );
   }
+
+  const submit = (e) => {
+    props.onAddSubmit(e);
+    if (lastRef !== null) {
+      setTimeout(() => {
+        lastRef.current.scrollIntoView({ behavior: 'smooth' });
+      }, 150);
+    }
+  };
 
   return (
     <div className="card text-white bg-dark mt-3">
@@ -21,18 +31,19 @@ const ChatRoom = ({...props}) => {
       <div className="card-body">
         <div className={style.chatList}>
           {props.messages.map(message => {
-
             const isMine = message.senderId === props.currentUserId;
+
             return (
               <Message
+                key={message.id}
                 isMine={isMine}
                 message={message.text}
-                key={message.id}
                 author={message.senderId}
                 createdAt={message.createdAt}
               />
             )
           })}
+          <span ref={lastRef} />
         </div>
       </div>
       <div className="card-footer">
@@ -47,7 +58,7 @@ const ChatRoom = ({...props}) => {
             type="button"
             className="btn btn-success"
             style={{marginLeft: 10}}
-            onClick={props.onAddSubmit}
+            onClick={submit}
           >
             SUBMIT 
           </button>
