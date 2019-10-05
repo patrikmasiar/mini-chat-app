@@ -9,7 +9,6 @@ export default class ChatController extends Component {
 
   state = {
     chatAction: null,
-    userName: '',
     chatRoom: '',
     isLoading: false,
     messages: [],
@@ -20,10 +19,6 @@ export default class ChatController extends Component {
 
   handleChangeChatAction = chatAction => {
     this.setState({chatAction});
-  };
-
-  handleChangeUserName = e => {
-    this.setState({userName: e.target.value});
   };
 
   handleChangeChatRoom = e => {
@@ -69,13 +64,13 @@ export default class ChatController extends Component {
 
   handleSubmitNewChat = () => {
     this.setState({isLoading: true});
-    const {userName} = this.state;
+    const {chatRoom} = this.state;
 
-    if (userName === null || userName.trim() === "") {
+    if (chatRoom === null || chatRoom.trim() === "") {
       alert("Invalid userId");
     } else {
       axios
-        .post("http://localhost:5200/users", { userId: userName })
+        .post("http://localhost:5200/users", { userId: chatRoom })
         .then(() => {
           const tokenProvider = new Chatkit.TokenProvider({
             url: "http://localhost:5200/authenticate"
@@ -83,7 +78,7 @@ export default class ChatController extends Component {
 
           const chatManager = new Chatkit.ChatManager({
             instanceLocator: CHATKIT_INSTANCE_LOCATOR,
-            userId: userName,
+            userId: chatRoom,
             tokenProvider
           });
 
@@ -100,10 +95,10 @@ export default class ChatController extends Component {
 
   handleSubmitJoinChat = () => {
     this.setState({isLoading: true});
-    const {userName} = this.state;
+    const {chatRoom} = this.state;
 
     axios
-    .post("http://localhost:5200/users", { userId: userName })
+    .post("http://localhost:5200/users", { userId: chatRoom })
     .then(() => {
       const tokenProvider = new Chatkit.TokenProvider({
         url: "http://localhost:5200/authenticate"
@@ -111,7 +106,7 @@ export default class ChatController extends Component {
 
       const chatManager = new Chatkit.ChatManager({
         instanceLocator: CHATKIT_INSTANCE_LOCATOR,
-        userId: userName,
+        userId: chatRoom,
         tokenProvider
       });
 
@@ -154,7 +149,7 @@ export default class ChatController extends Component {
 
   render() {
     const {appData} = this.props;
-    const {chatAction, isLoading, userName, chatRoom, messages, message, isChatReady} = this.state;
+    const {chatAction, isLoading, chatRoom, messages, message, isChatReady} = this.state;
     console.log('APP DATA: ', appData);
     console.log('MESSAGES:', messages);
 
@@ -199,10 +194,6 @@ export default class ChatController extends Component {
           <div className={style.btnsWrapper}>
             <h4>NEW CHAT</h4>
             <div className="form-group" style={{width: 350}}>
-              <label htmlFor="userName">Nickname</label>
-              <input onChange={this.handleChangeUserName} value={userName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Nickname" />
-            </div>
-            <div className="form-group" style={{width: 350}}>
               <label htmlFor="chatName">Char room name</label>
               <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
             </div>
@@ -218,10 +209,6 @@ export default class ChatController extends Component {
         {chatAction === 'join' && (
           <div className={style.btnsWrapper}>
             <h4>JOIN CHAT</h4>
-            <div className="form-group" style={{width: 350}}>
-              <label htmlFor="userName">Nickname</label>
-              <input onChange={this.handleChangeUserName} value={userName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Your Name" />
-            </div>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="chatName">Char room name</label>
               <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
