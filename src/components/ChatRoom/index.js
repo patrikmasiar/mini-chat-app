@@ -15,7 +15,9 @@ const ChatRoom = ({...props}) => {
 
   return (
     <div className="card text-white bg-dark mt-3">
-      <div className="card-header">{props.title}</div>
+      <div className="card-header">
+        <span className={style.title}>{props.title}</span>
+      </div>
       <div className="card-body">
         <div className={style.chatList}>
           {props.messages.map(message => {

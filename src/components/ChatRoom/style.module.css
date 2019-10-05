@@ -6,6 +6,12 @@
     align-items: center;
 }
 
+.title {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 18px;
+}
+
 .sendWrapper {
     display: flex;
     align-items: center;
