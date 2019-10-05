@@ -1,26 +1,24 @@
 import React, { createContext, Component } from 'react';
 
 const AppContext = createContext({
-  userName: '',
-  chatRoomName: '',
+  currentUser: {
+    id: null,
+    userName: '',
+  },
   setUserName: () => {},
-  setChatRoomName: () => {},
 });
 
 export class AppProvider extends Component {
   setUserName = userName => {
-    this.setState({ userName });
-  };
-
-  setChatRoomName = chatRoomName => {
-    this.setState({ chatRoomName });
+    this.setState({ currentUser: {id: userName, userName} });
   };
 
   state = {
-    userName: '',
-    chatRoomName: '',
+    currentUser: {
+      id: null,
+      userName: '',
+    },
     setUserName: this.setUserName,
-    setChatRoomName: this.setChatRoomName,
   };
 
   render() {
