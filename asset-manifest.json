@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/mini-chat-app/static/css/main.88781de1.chunk.css",
+    "main.js": "/mini-chat-app/static/js/main.fa62c571.chunk.js",
+    "main.js.map": "/mini-chat-app/static/js/main.fa62c571.chunk.js.map",
+    "runtime-main.js": "/mini-chat-app/static/js/runtime-main.cac6c4df.js",
+    "runtime-main.js.map": "/mini-chat-app/static/js/runtime-main.cac6c4df.js.map",
+    "static/js/2.98e4f88b.chunk.js": "/mini-chat-app/static/js/2.98e4f88b.chunk.js",
+    "static/js/2.98e4f88b.chunk.js.map": "/mini-chat-app/static/js/2.98e4f88b.chunk.js.map",
+    "index.html": "/mini-chat-app/index.html",
+    "precache-manifest.3b1558436dfeb3842e371e1bb1832c0f.js": "/mini-chat-app/precache-manifest.3b1558436dfeb3842e371e1bb1832c0f.js",
+    "service-worker.js": "/mini-chat-app/service-worker.js",
+    "static/css/main.88781de1.chunk.css.map": "/mini-chat-app/static/css/main.88781de1.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cac6c4df.js",
+    "static/js/2.98e4f88b.chunk.js",
+    "static/css/main.88781de1.chunk.css",
+    "static/js/main.fa62c571.chunk.js"
+  ]
+}
