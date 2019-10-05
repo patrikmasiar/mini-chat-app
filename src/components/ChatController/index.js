@@ -41,7 +41,7 @@ export default class ChatController extends Component {
 
         {chatAction === 'new' && (
           <div className={style.btnsWrapper}>
-            <h4>New chat</h4>
+            <h4>NEW CHAT</h4>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="userName">Your name</label>
               <input onChange={this.handleChangeUserName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Your Name" />
@@ -50,7 +50,10 @@ export default class ChatController extends Component {
               <label htmlFor="chatName">Char room name</label>
               <input onChange={this.handleChangeChatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
             </div>
-            <button type="button" className="btn btn-primary" style={{width: 200, marginTop: 20}} onClick={this.handleChangeChatAction.bind(this, null)}>
+            <button type="button" className="btn btn-success" style={{width: 350}}>
+              CREATE CHAT
+            </button>
+            <button type="button" className="btn btn-primary" style={{width: 200, marginTop: 30}} onClick={this.handleChangeChatAction.bind(this, null)}>
               BACK
             </button>
           </div>
@@ -58,7 +61,7 @@ export default class ChatController extends Component {
 
         {chatAction === 'join' && (
           <div className={style.btnsWrapper}>
-            <h4>Join chat</h4>
+            <h4>JOIN CHAT</h4>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="userName">Your name</label>
               <input onChange={this.handleChangeUserName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Your Name" />
@@ -67,7 +70,10 @@ export default class ChatController extends Component {
               <label htmlFor="chatName">Char room name</label>
               <input onChange={this.handleChangeChatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
             </div>
-            <button type="button" className="btn btn-primary" style={{width: 200, marginTop: 20}} onClick={this.handleChangeChatAction.bind(this, null)}>
+            <button type="button" className="btn btn-success" style={{width: 350}}>
+              JOIN CHAT
+            </button>
+            <button type="button" className="btn btn-primary" style={{width: 200, marginTop: 30}} onClick={this.handleChangeChatAction.bind(this, null)}>
               BACK
             </button>
           </div>
