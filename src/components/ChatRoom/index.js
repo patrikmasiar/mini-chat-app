@@ -23,10 +23,21 @@ const ChatRoom = ({...props}) => {
     }
   };
 
+  const leaveChat = () => {
+    // eslint-disable-next-line no-restricted-globals
+    if(confirm("Do you really want to do this?")) {
+      window.location.reload();
+    }
+    return false;
+  };
+
   return (
     <div className="card text-white bg-dark mt-3">
-      <div className="card-header">
+      <div className="card-header" style={{display: 'flex', flex: 1, justifyContent: 'space-between'}}>
         <span className={style.title}>{props.title}</span>
+        <button className="btn btn-sm btn-danger" onClick={leaveChat}>
+          Leave chat
+        </button>
       </div>
       <div className="card-body">
         <div className={style.chatList}>
