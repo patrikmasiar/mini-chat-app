@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import style from './style.module.css'
+import style from './style.module.css';
+import Spinner from "react-spinkit";
 
 export default class ChatController extends Component {
 
@@ -7,6 +8,7 @@ export default class ChatController extends Component {
     chatAction: null,
     userName: '',
     chatRoom: '',
+    isLoading: false,
   };
 
   handleChangeChatAction = chatAction => {
@@ -23,8 +25,16 @@ export default class ChatController extends Component {
 
   render() {
     const {appData} = this.props;
-    const {chatAction} = this.state;
+    const {chatAction, isLoading, userName, chatRoom} = this.state;
     console.log('APP DATA: ', appData);
+
+    if (isLoading) {
+      return (
+        <div className={style.btnsWrapper}>
+          <Spinner name="ball-triangle-path" color="#f0f0f0" />
+        </div>
+      )
+    }
 
     return (
       <>
@@ -44,11 +54,11 @@ export default class ChatController extends Component {
             <h4>NEW CHAT</h4>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="userName">Your name</label>
-              <input onChange={this.handleChangeUserName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Your Name" />
+              <input onChange={this.handleChangeUserName} value={userName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Your Name" />
             </div>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="chatName">Char room name</label>
-              <input onChange={this.handleChangeChatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
+              <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
             </div>
             <button type="button" className="btn btn-success" style={{width: 350}}>
               CREATE CHAT
@@ -64,11 +74,11 @@ export default class ChatController extends Component {
             <h4>JOIN CHAT</h4>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="userName">Your name</label>
-              <input onChange={this.handleChangeUserName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Your Name" />
+              <input onChange={this.handleChangeUserName} value={userName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Your Name" />
             </div>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="chatName">Char room name</label>
-              <input onChange={this.handleChangeChatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
+              <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
             </div>
             <button type="button" className="btn btn-success" style={{width: 350}}>
               JOIN CHAT
