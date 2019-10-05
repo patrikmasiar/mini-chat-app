@@ -37,6 +37,20 @@ app.post('/users', (req, res) => {
 		});
 });
 
+app.get('/posts', (req, res) => {
+	const { userId } = req.body;
+
+	chatkit.getUserRooms({
+		userId: userId,
+	})
+	.then(() => {
+		res.sendStatus(201);
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+});
+
 app.post('/authenticate', (req, res) => {
 	const authData = chatkit.authenticate({
 		userId: req.query.user_id

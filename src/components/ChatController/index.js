@@ -5,20 +5,53 @@ import Chatkit from "@pusher/chatkit-client";
 import Spinner from "react-spinkit";
 import {CHATKIT_INSTANCE_LOCATOR} from '../../constants';
 
+const classes = require('react-style-classes');
+
 export default class ChatController extends Component {
 
   state = {
     chatAction: null,
     chatRoom: '',
+    userName: '',
     isLoading: false,
     messages: [],
     isChatReady: false,
     message: '',
-    rooms: [],
+    loadedRooms: [],
+    roomId: null,
   };
+
+  componentDidMount() {
+    this.setState({isLoading: true});
+    axios
+    .get("http://localhost:5200/posts", { userId: 'support' })
+    .then(() => {
+      const tokenProvider = new Chatkit.TokenProvider({
+        url: "http://localhost:5200/authenticate"
+      });
+
+      const chatManager = new Chatkit.ChatManager({
+        instanceLocator: CHATKIT_INSTANCE_LOCATOR,
+        userId: 'support',
+        tokenProvider,
+      });
+
+      return chatManager
+        .connect()
+        .then(data => {
+          console.log(data.rooms)
+          this.setState({loadedRooms: data.rooms, isLoading: false});
+        });
+    })
+    .catch(console.error);
+  }
 
   handleChangeChatAction = chatAction => {
     this.setState({chatAction});
+  };
+
+  handleChangeUserName = e => {
+    this.setState({userName: e.target.value});
   };
 
   handleChangeChatRoom = e => {
@@ -29,9 +62,19 @@ export default class ChatController extends Component {
     this.setState({message: e.target.value});
   };
 
+  addSupportStaffToRoom = () => {
+    const {appData} = this.props;
+
+    return appData.user.addUserToRoom({
+      userId: "support",
+      roomId: appData.room.id,
+    });
+  };
+
   connectToRoom = (id) => {
     const { appData } = this.props;
 
+    console.log(id)
     return appData.user
       .subscribeToRoom({
         roomId: `${id}`,
@@ -51,26 +94,26 @@ export default class ChatController extends Component {
 
   createRoom = () => {
     const {appData} = this.props;
-
+  
     appData.user
       .createRoom({
         name: this.state.chatRoom,
-        private: true
+        private: false,
       })
       .then(room => this.connectToRoom(room.id))
-      // .then(() => this.addSupportStaffToRoom())
+      .then(() => this.addSupportStaffToRoom())
       .catch(console.error);
   };
 
   handleSubmitNewChat = () => {
     this.setState({isLoading: true});
-    const {chatRoom} = this.state;
+    const {userName} = this.state;
 
-    if (chatRoom === null || chatRoom.trim() === "") {
+    if (userName === null || userName.trim() === "") {
       alert("Invalid userId");
     } else {
       axios
-        .post("http://localhost:5200/users", { userId: chatRoom })
+        .post("http://localhost:5200/users", { userId: userName })
         .then(() => {
           const tokenProvider = new Chatkit.TokenProvider({
             url: "http://localhost:5200/authenticate"
@@ -78,7 +121,7 @@ export default class ChatController extends Component {
 
           const chatManager = new Chatkit.ChatManager({
             instanceLocator: CHATKIT_INSTANCE_LOCATOR,
-            userId: chatRoom,
+            userId: userName,
             tokenProvider
           });
 
@@ -95,10 +138,10 @@ export default class ChatController extends Component {
 
   handleSubmitJoinChat = () => {
     this.setState({isLoading: true});
-    const {chatRoom} = this.state;
+    const {chatRoom, userName} = this.state;
 
     axios
-    .post("http://localhost:5200/users", { userId: chatRoom })
+    .post("http://localhost:5200/users", { userId: userName })
     .then(() => {
       const tokenProvider = new Chatkit.TokenProvider({
         url: "http://localhost:5200/authenticate"
@@ -106,23 +149,30 @@ export default class ChatController extends Component {
 
       const chatManager = new Chatkit.ChatManager({
         instanceLocator: CHATKIT_INSTANCE_LOCATOR,
-        userId: chatRoom,
+        userId: userName,
         tokenProvider
       });
 
       return chatManager
         .connect()
         .then(currentUser => {
+          console.log(currentUser)
           this.props.appData.setUser(currentUser);
           this.setState(
             {
               isLoading: false, isChatReady: true,
-              rooms: this.props.appData.user.rooms,
             },
             () => {
-              if (this.state.rooms.length >= 1) {
-                this.connectToRoom(this.state.rooms[0].id);
+              const roomName = this.state.chatRoom.trim();
+              const selectedRoom = this.state.loadedRooms.find(room => room.name === roomName);
+          
+              if (typeof selectedRoom === 'undefined') {
+                alert('Room was not found');
+                this.setState({isChatReady: false});
+                return;
               }
+
+              this.connectToRoom(selectedRoom.id);
             }
           );
         });
@@ -148,7 +198,8 @@ export default class ChatController extends Component {
   };
 
   render() {
-    const {chatAction, isLoading, chatRoom, messages, message, isChatReady, rooms} = this.state;
+    const {chatAction, isLoading, chatRoom, messages, message, isChatReady, userName} = this.state;
+    const {appData} = this.props;
 
     if (isLoading) {
       return (
@@ -162,14 +213,18 @@ export default class ChatController extends Component {
       return (
         <div>
           <div className="card text-white bg-dark mt-3">
-            <div className="card-header">{rooms[0].name}</div>
+            <div className="card-header">CHAT</div>
             <div className="card-body">
               <div className={style.chatList}>
-                {messages.map((message, index) => (
-                  <div className={style.message} key={`${message}-${index}`}>
-                    {message.text}
-                  </div>
-                ))}
+                {messages.map((message, index) => {
+                  console.log(message);
+                  const isMine = message.senderId === appData.user.id;
+                  return (
+                    <div className={classes(style.message, isMine && style.mineMessage)} key={`${message}-${index}`}>
+                      {message.text}
+                    </div>
+                  )
+                })}
               </div>
             </div>
             <div className="card-footer">
@@ -202,7 +257,11 @@ export default class ChatController extends Component {
           <div className={style.btnsWrapper}>
             <h4>NEW CHAT</h4>
             <div className="form-group" style={{width: 350}}>
-              <label htmlFor="chatName">Char room name</label>
+              <label htmlFor="chatName">Nickname</label>
+              <input onChange={this.handleChangeUserName} value={userName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Nickname" />
+            </div>
+            <div className="form-group" style={{width: 350}}>
+              <label htmlFor="chatName">Chat room name</label>
               <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom name" />
             </div>
             <button type="button" className="btn btn-success" style={{width: 350}} onClick={this.handleSubmitNewChat}>
@@ -218,7 +277,11 @@ export default class ChatController extends Component {
           <div className={style.btnsWrapper}>
             <h4>JOIN CHAT</h4>
             <div className="form-group" style={{width: 350}}>
-              <label htmlFor="chatName">Char room name</label>
+              <label htmlFor="chatName">Nickname</label>
+              <input onChange={this.handleChangeUserName} value={userName} type="text" className="form-control" id="exampleInputEmail1" placeholder="Nickname" />
+            </div>
+            <div className="form-group" style={{width: 350}}>
+              <label htmlFor="chatName">Chat room name</label>
               <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom name" />
             </div>
             <button type="button" className="btn btn-success" style={{width: 350}} onClick={this.handleSubmitJoinChat}>
