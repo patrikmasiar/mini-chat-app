@@ -4,6 +4,7 @@ import {AppConsumer} from './store/store';
 import axios from "axios";
 import Chatkit from "@pusher/chatkit-client";
 import Spinner from "react-spinkit";
+import {CHATKIT_INSTANCE_LOCATOR} from './constants';
 
 const App = () => {
   const [userName, setUserName] = useState('');
@@ -51,7 +52,7 @@ const App = () => {
                     });
       
                     const chatManager = new Chatkit.ChatManager({
-                      instanceLocator: "v1:us1:f0ecceaa-4992-4706-813f-8237028def31",
+                      instanceLocator: CHATKIT_INSTANCE_LOCATOR,
                       userId,
                       tokenProvider,
                     });
