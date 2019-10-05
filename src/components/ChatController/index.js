@@ -148,10 +148,7 @@ export default class ChatController extends Component {
   };
 
   render() {
-    const {appData} = this.props;
-    const {chatAction, isLoading, chatRoom, messages, message, isChatReady} = this.state;
-    console.log('APP DATA: ', appData);
-    console.log('MESSAGES:', messages);
+    const {chatAction, isLoading, chatRoom, messages, message, isChatReady, rooms} = this.state;
 
     if (isLoading) {
       return (
@@ -164,15 +161,26 @@ export default class ChatController extends Component {
     if (isChatReady) {
       return (
         <div>
-          {messages.map((message, index) => (
-            <div key={`${message}-${index}`}>
-              {message.text}
+          <div className="card text-white bg-dark mt-3">
+            <div className="card-header">{rooms[0].name}</div>
+            <div className="card-body">
+              <div className={style.chatList}>
+                {messages.map((message, index) => (
+                  <div className={style.message} key={`${message}-${index}`}>
+                    {message.text}
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-          <input onChange={this.handleUpdateMessage} value={message} />
-          <button type="button" onClick={this.handleSubmitMessage}>
-            SUBMIT
-          </button>
+            <div className="card-footer">
+              <div className={style.sendWrapper}>
+                <input placeholder="type your message..." className="form-control" onChange={this.handleUpdateMessage} value={message} />
+                <button type="button" className="btn btn-success" style={{marginLeft: 10}} onClick={this.handleSubmitMessage}>
+                  SUBMIT 
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )
     }
@@ -195,7 +203,7 @@ export default class ChatController extends Component {
             <h4>NEW CHAT</h4>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="chatName">Char room name</label>
-              <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
+              <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom name" />
             </div>
             <button type="button" className="btn btn-success" style={{width: 350}} onClick={this.handleSubmitNewChat}>
               CREATE CHAT
@@ -211,7 +219,7 @@ export default class ChatController extends Component {
             <h4>JOIN CHAT</h4>
             <div className="form-group" style={{width: 350}}>
               <label htmlFor="chatName">Char room name</label>
-              <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
+              <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom name" />
             </div>
             <button type="button" className="btn btn-success" style={{width: 350}} onClick={this.handleSubmitJoinChat}>
               JOIN CHAT
