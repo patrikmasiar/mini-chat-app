@@ -59,6 +59,7 @@ const ChatRoom = ({...props}) => {
             className="btn btn-success"
             style={{marginLeft: 10}}
             onClick={submit}
+            disabled={props.newMessageValue.length === 0}
           >
             SUBMIT 
           </button>
