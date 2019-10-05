@@ -15,6 +15,7 @@ export default class ChatController extends Component {
     messages: [],
     isChatReady: false,
     message: '',
+    rooms: [],
   };
 
   handleChangeChatAction = chatAction => {
@@ -98,7 +99,40 @@ export default class ChatController extends Component {
   };
 
   handleSubmitJoinChat = () => {
+    this.setState({isLoading: true});
+    const {userName} = this.state;
 
+    axios
+    .post("http://localhost:5200/users", { userId: userName })
+    .then(() => {
+      const tokenProvider = new Chatkit.TokenProvider({
+        url: "http://localhost:5200/authenticate"
+      });
+
+      const chatManager = new Chatkit.ChatManager({
+        instanceLocator: CHATKIT_INSTANCE_LOCATOR,
+        userId: userName,
+        tokenProvider
+      });
+
+      return chatManager
+        .connect()
+        .then(currentUser => {
+          this.props.appData.setUser(currentUser);
+          this.setState(
+            {
+              isLoading: false, isChatReady: true,
+              rooms: this.props.appData.user.rooms,
+            },
+            () => {
+              if (this.state.rooms.length >= 1) {
+                this.connectToRoom(this.state.rooms[0].id);
+              }
+            }
+          );
+        });
+    })
+    .catch(console.error);
   };
 
   handleSubmitMessage = (event) => {
@@ -192,7 +226,7 @@ export default class ChatController extends Component {
               <label htmlFor="chatName">Char room name</label>
               <input onChange={this.handleChangeChatRoom} value={chatRoom} type="text" className="form-control" id="exampleInputEmail1" placeholder="chatroom" />
             </div>
-            <button type="button" className="btn btn-success" style={{width: 350}}>
+            <button type="button" className="btn btn-success" style={{width: 350}} onClick={this.handleSubmitJoinChat}>
               JOIN CHAT
             </button>
             <button type="button" className="btn btn-primary" style={{width: 200, marginTop: 30}} onClick={this.handleChangeChatAction.bind(this, null)}>
