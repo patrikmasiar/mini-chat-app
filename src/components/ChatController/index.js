@@ -23,6 +23,14 @@ export default class ChatController extends Component {
     this.setState({chatRoom: e.target.value});
   };
 
+  handleSubmitNewChat = () => {
+
+  };
+
+  handleSubmitJoinChat = () => {
+
+  };
+
   render() {
     const {appData} = this.props;
     const {chatAction, isLoading, userName, chatRoom} = this.state;
