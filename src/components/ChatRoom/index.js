@@ -3,6 +3,8 @@ import style from './style.module.css';
 import PropTypes from 'prop-types';
 import Message from '../Message';
 import Spinner from "react-spinkit";
+import Footer from './components/Footer';
+import Header from './components/Header';
 
 const ChatRoom = ({...props}) => {
   const lastRef = useRef(null);
@@ -33,12 +35,10 @@ const ChatRoom = ({...props}) => {
 
   return (
     <div className="card text-white bg-dark mt-3">
-      <div className="card-header" style={{display: 'flex', flex: 1, justifyContent: 'space-between'}}>
-        <span className={style.title}>{props.title}</span>
-        <button className="btn btn-sm btn-danger" onClick={leaveChat}>
-          Leave chat
-        </button>
-      </div>
+      <Header
+        onLeaveChat={leaveChat}
+        title={props.title}
+      />
       <div className="card-body">
         <div className={style.chatList}>
           {props.messages.map(message => {
@@ -57,25 +57,11 @@ const ChatRoom = ({...props}) => {
           <span ref={lastRef} />
         </div>
       </div>
-      <div className="card-footer">
-        <div className={style.sendWrapper}>
-          <input
-            placeholder="type your message..."
-            className="form-control"
-            onChange={props.onNewMessageChange}
-            value={props.newMessageValue}
-          />
-          <button
-            type="button"
-            className="btn btn-success"
-            style={{marginLeft: 10}}
-            onClick={submit}
-            disabled={props.newMessageValue.length === 0}
-          >
-            SEND
-          </button>
-        </div>
-      </div>
+      <Footer
+        onSubmit={submit}
+        onMessageChange={props.onNewMessageChange}
+        value={props.newMessageValue}
+      />
     </div>
   );
 };
