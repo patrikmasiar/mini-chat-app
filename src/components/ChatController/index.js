@@ -30,10 +30,10 @@ export default class ChatController extends Component {
   componentDidMount() {
     this.setState({isLoading: true});
     axios
-    .get(`${ENDPOINT}/posts`, { userId: 'support' })
-    .then(() => {
-      const tokenProvider = new Chatkit.TokenProvider({
-        url: `${ENDPOINT}/authenticate`
+      .get(`${ENDPOINT}/posts`, { userId: 'support' })
+      .then(() => {
+        const tokenProvider = new Chatkit.TokenProvider({
+          url: `${ENDPOINT}/authenticate`
       });
 
       const chatManager = new Chatkit.ChatManager({
@@ -145,10 +145,10 @@ export default class ChatController extends Component {
     const {userName} = this.state;
 
     axios
-    .post(`${ENDPOINT}/users`, { userId: userName })
-    .then(() => {
-      const tokenProvider = new Chatkit.TokenProvider({
-        url: `${ENDPOINT}/authenticate`
+      .post(`${ENDPOINT}/users`, { userId: userName })
+      .then(() => {
+        const tokenProvider = new Chatkit.TokenProvider({
+          url: `${ENDPOINT}/authenticate`
       });
 
       const chatManager = new Chatkit.ChatManager({
