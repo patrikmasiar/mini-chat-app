@@ -6,9 +6,9 @@ import * as serviceWorker from './serviceWorker';
 import { AppProvider } from './store/store';
 
 const Application = () => (
-    <AppProvider>
-        <App />
-    </AppProvider>
+  <AppProvider>
+    <App />
+  </AppProvider>
 );
 
 ReactDOM.render(<Application />, document.getElementById('root'));

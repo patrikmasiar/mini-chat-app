@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import style from './style.module.css';
+import PropTypes from 'prop-types';
 import axios from "axios";
 import Chatkit from "@pusher/chatkit-client";
 import Spinner from "react-spinkit";
@@ -9,6 +10,10 @@ import ChatRoom from '../ChatRoom';
 import {NEW_CHAT_TYPE, JOIN_CHAT_TYPE} from './constants';
 
 export default class ChatController extends Component {
+
+  static propTypes = {
+    appData: PropTypes.object.isRequired,
+  };
 
   state = {
     chatAction: null,

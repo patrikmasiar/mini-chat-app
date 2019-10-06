@@ -1,3 +1,4 @@
+//TODO: refactor chatlist as body component
 import React, {useRef} from 'react';
 import style from './style.module.css';
 import PropTypes from 'prop-types';
