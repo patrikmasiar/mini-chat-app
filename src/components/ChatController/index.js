@@ -183,8 +183,8 @@ export default class ChatController extends Component {
     .catch(console.error);
   };
 
-  handleSubmitMessage = (event) => {
-    event.preventDefault();
+  handleSubmitMessage = () => {
+    // event.preventDefault();
     const { message } = this.state;
     const {appData} = this.props;
 

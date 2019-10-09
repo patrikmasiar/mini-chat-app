@@ -17,8 +17,8 @@ const ChatRoom = ({...props}) => {
     );
   }
 
-  const submit = (e) => {
-    props.onAddSubmit(e);
+  const submit = () => {
+    props.onAddSubmit();
     if (lastRef !== null) {
       setTimeout(() => {
         lastRef.current.scrollIntoView({ behavior: 'smooth' });
