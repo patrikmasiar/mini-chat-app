@@ -31,7 +31,7 @@ const Footer = ({...props}) => (
 Footer.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onMessageChange: PropTypes.func.isRequired,
-  value: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export default Footer;

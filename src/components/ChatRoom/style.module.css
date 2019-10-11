@@ -6,17 +6,6 @@
   align-items: center;
 }
 
-.title {
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 18px;
-}
-
-.messageInputWrapper {
-  width: 100%;
-  flex: 3;
-}
-
 .chatList {
   display: flex;
   flex-direction: column;

@@ -59,7 +59,6 @@ AddToChatForm.propTypes = {
   nickname: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
-  isSubmitDisabled: PropTypes.bool.isRequired,
 };
 
 export default AddToChatForm;
